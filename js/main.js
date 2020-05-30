@@ -363,6 +363,20 @@ var main = (function () {
         }
     };
 
+    Terminal.prototype.sendToPHP = function (params) {
+        var httpc = new XMLHttpRequest(); 
+        var url = "addNewFile.php";
+        httpc.open("POST", url, true); 
+    
+        httpc.onreadystatechange = function() {
+            if(httpc.readyState == 4 && httpc.status == 200) { 
+                alert(httpc.responseText);
+                console.log(httpc);
+            }
+        };
+        httpc.send(params);
+    }
+
     Terminal.prototype.saveLine = function (line) {
         this.newFile += line + "\n";
 
@@ -371,14 +385,15 @@ var main = (function () {
 
     Terminal.prototype.writeUplaod = function () {
         this.isUploading = false;
+        
+        var result = `${this.fileName} Saved File`;
 
-        var result = `${this.fileName} Saved File`
-
+        this.sendToPHP({fn: this.fileName, content: this.newFile});
+        
         this.type(result, this.unlock.bind(this));
     }
 
     Terminal.prototype.upload = function (cmdComponents) {
-        console.log(cmdComponents);
         this.fileName = cmdComponents[1];
         this.backTextContent = this.output.textContent;
         this.newFile = "";
