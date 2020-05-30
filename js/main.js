@@ -316,8 +316,6 @@ var main = (function () {
         var cmdLine = this.cmdLine.value.trim();
         this.lock();
 
-        console.log(cmdComponents)
-
         if(cmdLine == cmds.WRITEUPLOAD.value) {
             this.writeUplaod();
         } else if(this.isUploading) {
@@ -368,16 +366,13 @@ var main = (function () {
     Terminal.prototype.saveLine = function (line) {
         this.newFile += line + "\n";
 
-        console.log(this.newFile);
-
         this.type("", this.unlock.bind(this));
     }
 
     Terminal.prototype.writeUplaod = function () {
         this.isUploading = false;
 
-        console.log("Saved Text : ");
-        console.log(this.newFile, this.fileName);
+        var result = `${this.fileName} Saved File`
 
         this.type(configs.getInstance().upload_write_message, this.unlock.bind(this));
     }
