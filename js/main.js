@@ -374,7 +374,7 @@ var main = (function () {
 
         var result = `${this.fileName} Saved File`
 
-        this.type(configs.getInstance().upload_write_message, this.unlock.bind(this));
+        this.type(result, this.unlock.bind(this));
     }
 
     Terminal.prototype.upload = function (cmdComponents) {
