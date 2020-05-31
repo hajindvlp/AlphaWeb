@@ -63,24 +63,37 @@ var configs = (function () {
  * Your files here
  */
 var files = (function () {
-    var instance;
-    var Singleton = function (options) {
-        var options = options || Singleton.defaultOptions;
+    var Singleton = function () {
         for (var key in Singleton.defaultOptions) {
-            this[key] = options[key] || Singleton.defaultOptions[key];
+            this[key] = Singleton.defaultOptions[key];
         }
     };
-    Singleton.defaultOptions = {
-        "about.txt": "This website was made using only pure JavaScript with no extra libraries.\nI made it dynamic so anyone can use it, just download it from GitHub and change the config text according to your needs.\nIf you manage to find any bugs or security issues feel free to email me: luisbraganca@protonmail.com",
-        "getting_started.txt": "First, go to js/main.js and replace all the text on both singleton vars.\n- configs: All the text used on the website.\n- files: All the fake files used on the website. These files are also used to be listed on the sidenav.\nAlso please notice if a file content is a raw URL, when clicked/concatenated it will be opened on a new tab.\nDon't forget also to:\n- Change the page title on the index.html file\n- Change the website color on the css/main.css\n- Change the images located at the img folder. The suggested sizes are 150x150 for the avatar and 32x32/16x16 for the favicon.",
-        "contact.txt": "alpha030520@gmail.com",
-        "Testing.txt": "This is Testing."
-    };
+
+    var update = function () {
+        get('ls', {}, (listJson) => {
+            Singleton.defaultOptions = {};
+            listJson.list.forEach(file => {
+                read(file, (content) => {
+                    Singleton.defaultOptions[file] = content;
+                })
+            });
+        });
+    }
+
+    var read = function (fn, callback) {
+        post(`cat`, {fn: fn}, (contentJson) => {
+            Singleton.defaultOptions[fn] = contentJson.content;
+            callback(contentJson.content);
+        });
+    }
+
     return {
-        getInstance: function (options) {
-            instance === void 0 && (instance = new Singleton(options));
-            return instance;
-        }
+        getInstance: function () {
+            update();
+            return Singleton.defaultOptions;
+        },
+        update: update,
+        read: read
     };
 })();
 
@@ -157,6 +170,8 @@ var main = (function () {
         }
         (typeof user === "string" && typeof host === "string") && (this.completePrompt = user + "@" + host + ":~" + (root ? "#" : "$"));
         this.profilePic = profilePic;
+        this.pervCmd = [];
+        this.cmdLineNum = 0;
         this.prompt = prompt;
         this.cmdLine = cmdLine;
         this.output = output;
@@ -197,6 +212,9 @@ var main = (function () {
                 ignoreEvent(event);
             } else if (event.which === 9 || event.keyCode === 9) {
                 this.handleFill();
+                ignoreEvent(event);
+            } else if (event.which === 38 || event.keyCode === 38) {
+                this.handlePrev();
                 ignoreEvent(event);
             }
         }.bind(this));
@@ -315,6 +333,9 @@ var main = (function () {
         var cmdComponents = this.cmdLine.value.trim().split(" ");
         var cmdLine = this.cmdLine.value.trim();
         this.lock();
+        
+        this.pervCmd.push(cmdLine);
+
 
         if(cmdLine == cmds.WRITEUPLOAD.value) {
             this.writeUplaod();
@@ -363,40 +384,31 @@ var main = (function () {
         }
     };
 
-    Terminal.prototype.sendToPHP = function (params) {
-        var httpc = new XMLHttpRequest(); 
-        var url = "addNewFile.php";
-        httpc.open("POST", url, true); 
-    
-        httpc.onreadystatechange = function() {
-            if(httpc.readyState == 4 && httpc.status == 200) { 
-                alert(httpc.responseText);
-                console.log(httpc);
-            }
-        };
-        httpc.send(params);
+    Terminal.prototype.handlePrev = function() {
+        this.cmdLine.value = this.pervCmd;
     }
 
     Terminal.prototype.saveLine = function (line) {
-        this.newFile += line + "\n";
+        this.content += line + "\n";
 
         this.type("", this.unlock.bind(this));
     }
 
     Terminal.prototype.writeUplaod = function () {
         this.isUploading = false;
-        
-        var result = `${this.fileName} Saved File`;
+        var result = `${this.fn} Saved File`;
 
-        this.sendToPHP({fn: this.fileName, content: this.newFile});
-        
+        post('upload', {fn: this.fn, content: this.content});
+        this.fn = '';
+
+        files.update();
         this.type(result, this.unlock.bind(this));
     }
 
     Terminal.prototype.upload = function (cmdComponents) {
-        this.fileName = cmdComponents[1];
+        this.fn = cmdComponents[1];
         this.backTextContent = this.output.textContent;
-        this.newFile = "";
+        this.content = "";
 
         this.output.textContent = "";
         this.isUploading = true;
@@ -405,18 +417,21 @@ var main = (function () {
 
     Terminal.prototype.cat = function (cmdComponents) {
         var result;
+
+        files.read(cmdComponents[1]);
+
         if (cmdComponents.length <= 1) {
             result = configs.getInstance().usage + ": " + cmds.CAT.value + " <" + configs.getInstance().file + ">";
-        } else if (!cmdComponents[1] || (!cmdComponents[1] === configs.getInstance().welcome_file_name || !files.getInstance().hasOwnProperty(cmdComponents[1]))) {
+        } else if (!cmdComponents[1] || !files.getInstance().hasOwnProperty(cmdComponents[1])) {
             result = configs.getInstance().file_not_found.replace(configs.getInstance().value_token, cmdComponents[1]);
         } else {
-            result = cmdComponents[1] === configs.getInstance().welcome_file_name ? configs.getInstance().welcome : files.getInstance()[cmdComponents[1]];
+            result = files.getInstance()[cmdComponents[1]];
         }
         this.type(result, this.unlock.bind(this));
     };
 
     Terminal.prototype.ls = function () {
-        var result = ".\n..\n" + configs.getInstance().welcome_file_name + "\n";
+        var result = ".\n..\n";
         for (var file in files.getInstance()) {
             result += file + "\n";
         }
@@ -539,5 +554,37 @@ var main = (function () {
         }
     };
 })();
+
+function post(url, data, callback) {
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(res => {
+        return res.json();
+    }).then(json => {
+        console.log(json);
+        callback(json);
+    });
+}
+
+function get(url, data, callback) {
+    fetch(url, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+    }).then((res) => {
+        return res.json();
+    }).then((json) => {
+        console.log(json);
+        callback(json);
+    })
+}
 
 window.onload = main.listener;
