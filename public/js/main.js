@@ -13,7 +13,8 @@ var configs = (function () {
     };
     Singleton.defaultOptions = {
         general_help: "Below there's a list of commands that you can use.\nYou can use autofill by pressing the TAB key, autocompleting if there's only 1 possibility, or showing you a list of possibilities.",
-        upload_help: "This is upload help",
+        upload_help: "You can upload the AC datas by using upload filename",
+        ':w_help': "If you want to stop writng the document and save it, you have to type :w end of the document.",
         ls_help: "List information about the files and folders (the current directory by default).",
         cat_help: "Read FILE(s) content and print it to the standard output (screen).",
         whoami_help: "Print the user name associated with the current effective user ID and more info.",
@@ -28,7 +29,7 @@ var configs = (function () {
         touch_help: "Change file timestamps. If the file doesn't exist, it's created an empty one.",
         sudo_help: "Execute a command as the superuser.",
 
-        welcome: "This is Alpha Corperation Main Console.\nYou can't do anything in this connected console.\nOur Corperation will continuously update the file of 'The Concept'.\nAlso, We will add several feachers in this console. \nType 'help' command or use the more user-friendly colored sidenav at your left.\nIn order to skip text rolling, double click/touch anywhere.",
+        welcome: "This is Alpha Foundation Main Console.\nYou can't do anything in this connected console.\nOur Corperation will continuously update the file of 'Alpha Concept'.\nAlso, We will add several feachers in this console. \nType 'help' command or use the more user-friendly colored sidenav at your left.\nIn order to skip text rolling, double click/touch anywhere.",
         upload_initial_message: "You can type anything here and save it, But you CANT EDIT IT.",
         upload_write_message: "Saved",
         internet_explorer_warning: "NOTE: I see you're using internet explorer, this website won't work properly.",
@@ -67,6 +68,12 @@ var files = (function () {
         for (var key in Singleton.defaultOptions) {
             this[key] = Singleton.defaultOptions[key];
         }
+    };
+    Singleton.defaultOptions = {
+        "about.txt": "Alpha",
+        "alpha_foudation.txt":"Alpha",
+        "getting_started.txt": "Alpha",
+        "contact.txt": "alpha030520@gmail.com"
     };
 
     var update = function () {
@@ -135,7 +142,7 @@ var main = (function () {
     InvalidArgumentException.prototype.constructor = InvalidArgumentException;
 
     var cmds = {
-        WRITEUPLOAD : { value: ":w" },
+        WRITEUPLOAD : { value: ":w", help:configs.getInstance()[':w_help'] },
         UPLOAD: { value: "upload", help: configs.getInstance().upload_help },
         LS: { value: "ls", help: configs.getInstance().ls_help },
         CAT: { value: "cat", help: configs.getInstance().cat_help },
@@ -170,8 +177,8 @@ var main = (function () {
         }
         (typeof user === "string" && typeof host === "string") && (this.completePrompt = user + "@" + host + ":~" + (root ? "#" : "$"));
         this.profilePic = profilePic;
-        this.pervCmd = [];
-        this.cmdLineNum = 0;
+        this.cmdList = [];
+        this.cmdIdx = 0;
         this.prompt = prompt;
         this.cmdLine = cmdLine;
         this.output = output;
@@ -216,7 +223,10 @@ var main = (function () {
             } else if (event.which === 38 || event.keyCode === 38) {
                 this.handlePrev();
                 ignoreEvent(event);
-            }
+            } else if (event.which === 40 || event.keyCode === 40) {
+              this.handleNext();
+              ignoreEvent(event);
+          }
         }.bind(this));
         this.reset();
     };
@@ -334,8 +344,10 @@ var main = (function () {
         var cmdLine = this.cmdLine.value.trim();
         this.lock();
         
-        this.pervCmd.push(cmdLine);
-
+        if(cmdLine && this.cmdList[this.cmdList.length-1] !== cmdLine) {
+          this.cmdIdx++;
+          this.cmdList.push(cmdLine);          
+        }
 
         if(cmdLine == cmds.WRITEUPLOAD.value) {
             this.writeUplaod();
@@ -385,7 +397,12 @@ var main = (function () {
     };
 
     Terminal.prototype.handlePrev = function() {
-        this.cmdLine.value = this.pervCmd;
+      if(this.cmdIdx > 0) this.cmdLine.value = this.cmdList[--this.cmdIdx];
+    }
+
+    Terminal.prototype.handleNext = function() {
+      if(this.cmdIdx < this.cmdList.length-1) this.cmdLine.value = this.cmdList[++this.cmdIdx]; 
+      if(this.cmdIdx == this.cmdList.length-1) ++this.cmdIdx, this.cmdLine.value = "";
     }
 
     Terminal.prototype.saveLine = function (line) {
