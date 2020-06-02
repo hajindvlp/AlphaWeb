@@ -401,8 +401,12 @@ var main = (function () {
     }
 
     Terminal.prototype.handleNext = function() {
-      if(this.cmdIdx < this.cmdList.length-1) this.cmdLine.value = this.cmdList[++this.cmdIdx]; 
-      if(this.cmdIdx == this.cmdList.length-1) ++this.cmdIdx, this.cmdLine.value = "";
+      if(this.cmdIdx < this.cmdList.length) {
+        this.cmdIdx++;
+        
+        if(this.cmdList[this.cmdIdx] === undefined) this.cmdLine.value = "";
+        else this.cmdLine.value = this.cmdList[this.cmdIdx];
+      }
     }
 
     Terminal.prototype.saveLine = function (line) {
