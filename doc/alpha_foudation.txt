@@ -1,0 +1,79 @@
+Alpha Foundation Main Console
+The Alpha Foundation was created by the establishment of 
+Alpha and the exact year of its establishment is unknown.
+Before the SCP Foundation came into Korea, it was first 
+created under their influence. During the 25th invocation 
+of the 2003 Alpha, Alpha tried to publish all the information 
+about the ACs it had obtained so far, but since all the data 
+on the AC has been retracted due to the topic incident inside 
+the Alpha Foundation, it has developed the Alpha Foundation 
+Main Console, but it has not been able to include the information 
+and uploads the information as the AC data is restored. 
+The website is designed to provide an environment where researchers
+from Alpha Foundation around the world can upload data from ACs and
+existing ACs in real time.
+
+Alpha Foundation Class
+The Alpha Foundation is using its own staff hierarchy for more 
+systematic AC management.
+
+
+Alpha:
+A class granted to Alpha who has full authority.
+Only given to Alpha and assigned to one person.
+
+
+Beta:
+A class with full authority other than Alpha's right to access personal data.
+It is a position only granted to two people designated by Alpha.
+The two are called Beta-1 and Beta-2 to be distinguished from each other, 
+and their authority and positions are all equal.
+
+Gamma:
+A class with full authority other than the right to access personal data by Alpha and Beta.
+It is a position granted only to three people designated by Alpha.
+The three are called Gamma-1, Gamma-2, and Gamma-3 to be distinguished from each other, 
+and the three's authority and position are all equal.
+
+The above ranks are all those belonging to the Alpha Council and make very important decisions within the Foundation.
+
+The next classes to come are those who are practically employed within the Alpha Foundation to do actual research and work.
+
+Alfred:
+They are senior researchers at the Alpha Foundation, who plan research 
+using, securing, dealing with AC isolation failures, and direct the lower classes. 
+In very sophisticated and difficult experiments, 
+it can sometimes be put into the actual isolation process.
+
+Alphys:
+The rank directly involved in managing and isolating AC as
+ general researchers at the Alpha Foundation. Direct interaction with 
+ACs below grade E and various experiments serve to observe and record
+experiments when contacted by Alan-class employees.
+
+Alan:
+It is a class that comes into direct contact with ACs in the Alpha 
+Foundation and is put into various experiments. Unlike the D class
+of the SCP Foundation, treatment with a rank actually selected through
+formal procedures is given a high grade, like Alfred within the foundation. 
+When put into an experiment, it can be applied to a "human backup project" 
+that uses all the foundation's technical skills in preparation for all kinds 
+of safety equipment and possible situations to prevent death during the experiment.
+*Human Backup Project)
+A project to continuously back up specific human consciousness and memories on a 
+computer and collect DNA and other organic information of the body in advance 
+to create the same organism when the subject dies.
+
+Acherd:
+A one-time human type AC used in various experiments. 
+It is an object created in "AC-0002-ALPHA-0001_Human_manufacturer" and the 
+intention of creation itself is for experimentation. 
+Can be produced indefinitely and used as a one-time use.
+
+Alphaforce:
+The unit is the direct unit of Alpha and is deployed in the event of 
+failure to isolate Class B AC objects. There are also cases in which 
+space-type ACs are replaced by Alan class personnel. Also, 
+when planning an experiment, they are temporarily assigned to two direct 
+units under the application of the Alfred class and the Alphys class, 
+and then go back to Alphaforce.

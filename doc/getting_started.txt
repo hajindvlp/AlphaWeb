@@ -1,0 +1,64 @@
+In order to write AC documents, the title of the document must always be 
+written in the form AC-Serial Code_Character.txt, and the contents must 
+include AC serial code, title, grade, special isolation, and description, and the following essentials:
+Example) =>
+AC-0001_Example.txt
+
+Serial Code: AC-0001
+Title: Example
+Rating: Alpha
+
+Special Isolation:
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+
+Description:
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+
+Additional Description:
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+
+
+
+The following are detailed information on the essential elements to be 
+included in the title and content of the document.
+
+Serial code:
+Serial codes are usually numbered, added 1 to the last AC number, and 
+numbered in four digits. If the number is less than four digits, write 
+0 in the blank space to help you access the data.
+In special cases, ACs that are related to any organ, or that are self-made 
+by the Foundation, will be given another number, including the basic number 
+of the serial code.
+Example) => Alpha Foundation Self-produced AC = AC-0025-Alpha-0001_Example.txt
+The designated agencies will continue to be updated and all other agency codes 
+will be ineffective.
+Specified Agency Code
+Korea Digital Media High School => DIMI
+Alpha Foundation Self-Build => ALPHA
+
+Title:
+Titles should be given names that are easy to understand and as short as possible
+ to remember and call AC. Also, if spacing is used, space is replaced with _.
+
+Rating:
+The ratings represent the risk of AC, which uses A, B, C, D, E and F. If Alpha is
+determined to be deployed, A and Alphaforce units should be deployed, B and 
+Alfred units should be deployed, and C and Alphys units should be deployed. 
+If D and Alans are deployed and are sufficiently manageable, E,
+if they feel completely safe and need not be isolated at all, F is given.
