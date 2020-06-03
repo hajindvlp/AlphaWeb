@@ -190,6 +190,7 @@ var main = (function () {
 
     Terminal.prototype.type = function (text, callback) {
         this.typeSimulator.type(text, callback);
+        window.scrollTo(0,document.body.scrollHeight);
     };
 
     Terminal.prototype.exec = function () {
