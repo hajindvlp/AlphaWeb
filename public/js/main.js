@@ -3,6 +3,7 @@
 /**
  * Configs
  */
+
 var configs = (function () {
     var instance;
     var Singleton = function (options) {
@@ -77,8 +78,7 @@ var files = (function () {
     };
 
     var update = function () {
-        get('ls', {}, (listJson) => {
-            Singleton.defaultOptions = {};
+        get('/ls', {}, (listJson) => {
             listJson.list.forEach(file => {
                 read(file, (content) => {
                     Singleton.defaultOptions[file] = content;
@@ -88,7 +88,7 @@ var files = (function () {
     }
 
     var read = function (fn, callback) {
-        post(`cat`, {fn: fn}, (contentJson) => {
+        post(`/cat`, {fn: fn}, (contentJson) => {
             Singleton.defaultOptions[fn] = contentJson.content;
             callback(contentJson.content);
         });
@@ -420,7 +420,7 @@ var main = (function () {
         this.isUploading = false;
         var result = `${this.fn} Saved File`;
 
-        post('upload', {fn: this.fn, content: this.content});
+        post('/upload', {fn: this.fn, content: this.content});
         this.fn = '';
 
         files.update();
@@ -577,9 +577,11 @@ var main = (function () {
     };
 })();
 
-function post(url, data, callback) {
+const apiEndpoint = "https://us-central1-alphaweb-63c8c.cloudfunctions.net/api";
 
-    fetch(url, {
+function post(url, data, callback) {
+    let rawUrl = apiEndpoint + url;
+    fetch(rawUrl, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -595,7 +597,8 @@ function post(url, data, callback) {
 }
 
 function get(url, data, callback) {
-    fetch(url, {
+    let rawUrl = apiEndpoint + url;
+    fetch(rawUrl, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
